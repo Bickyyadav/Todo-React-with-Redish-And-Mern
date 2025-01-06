@@ -1,0 +1,37 @@
+version: '3.8'
+name: mernapp
+
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - mernapp
+    ports:
+      - "8000:8000"
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./client/todo
+      dockerfile: Dockerfile
+    volumes:
+      - ./client/todo:/app
+      - /app/node_modules
+    networks:
+      - mernapp
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+networks:
+  mernapp:
+    driver: bridge
