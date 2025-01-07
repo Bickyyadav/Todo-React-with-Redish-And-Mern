@@ -67,7 +67,6 @@ export const login = async (req, res) => {
 //creating jsonwebtoken  userid form the user is the name while extracting inline no 52 and we have written in curl bracket expired data
 const token = await jwt.sign({userId:user._id},process.env.SECRET_KEY,{expiresIn:'1d'});
 // saving the cookie in the browser cookie and this httpsonly samesite is the restriction in the browser 
-
     res.status(201).cookie("token",token,{
         httpOnly: true,
         sameSite: "strict",
